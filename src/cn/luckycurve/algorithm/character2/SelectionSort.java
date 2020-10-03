@@ -1,13 +1,15 @@
 package cn.luckycurve.algorithm.character2;
 
+import cn.luckycurve.util.ArrayUtil;
 import cn.luckycurve.util.ComparableUtil;
+import cn.luckycurve.util.StopwatchUtil;
 
 /**
  * @author LuckyCurve
  * @date 2020/10/2 15:05
  * 选择排序的实现
  */
-public class Selection {
+public class SelectionSort {
 
     public static void sort(Comparable[] comparables) {
         for (int i = 0; i < comparables.length - 1; i++) {
@@ -20,7 +22,7 @@ public class Selection {
                 }
             }
             if (min != i) {
-                ComparableUtil.exch(comparables, min, i);
+                ComparableUtil.exchange(comparables, min, i);
             }
         }
     }
@@ -30,10 +32,11 @@ public class Selection {
      * 测试用例
      */
     public static void main(String[] args) {
-        Integer[] a = {5, 8, 2, 1, 4, 5};
+        Integer[] a = ArrayUtil.randomArray(5000, 50);
 
-        sort(a);
+        StopwatchUtil.stopwatch(() -> sort(a));
 
-        System.out.println(ComparableUtil.isSorted(a));
+        System.out.println("排序正确性：" + ComparableUtil.isSorted(a));
+
     }
 }

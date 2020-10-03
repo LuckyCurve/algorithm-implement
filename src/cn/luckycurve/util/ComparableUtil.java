@@ -19,7 +19,7 @@ public class ComparableUtil {
     /**
      * 完成交换指定下标元素
      */
-    public static void exch(Comparable[] src, Integer index1, Integer index2) {
+    public static void exchange(Comparable[] src, Integer index1, Integer index2) {
         Comparable temp = src[index1];
         src[index1] = src[index2];
         src[index2] = temp;

@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class CollectionPartition {
 
-    private static final String filePath = "D:\\temp\\";
+    private static final String FILE_PATH = "D:\\temp\\";
 
     /**
      * @param n 集合元素个数
@@ -32,7 +32,7 @@ public class CollectionPartition {
 
     public static void main(String[] args) throws IOException {
         // 文件读取
-        File file = new File(filePath + "input.txt");
+        File file = new File(FILE_PATH + "input.txt");
         if (!file.exists()) {
             System.out.println("输入文件不存在！");
         }
@@ -47,7 +47,7 @@ public class CollectionPartition {
         }
 
         // 将结果回写到output.txt文件中去
-        File file1 = new File(filePath + "output.txt");
+        File file1 = new File(FILE_PATH + "output.txt");
         if (!file1.exists()) {
             file1.createNewFile();
         }

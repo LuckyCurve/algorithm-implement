@@ -4,15 +4,12 @@ import cn.luckycurve.util.ArrayUtil;
 import cn.luckycurve.util.ComparableUtil;
 import cn.luckycurve.util.StopwatchUtil;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author LuckyCurve
  * @date 2020/10/2 15:19
  * 插入排序实现
  */
-public class Insertion {
+public class InsertionSort {
 
     /**
      * 自己实现的插入排序，没有利用到已经排序的顺序性质
@@ -24,9 +21,7 @@ public class Insertion {
 
             for (int j = i; j > 0; j--) {
                 if (ComparableUtil.less(comparables[j], comparables[j - 1])) {
-                    ArrayUtil.println(comparables);
-                    System.out.println("发生交换下标：" + (j - 1) +" "+ j);
-                    ComparableUtil.exch(comparables, j - 1, j);
+                    ComparableUtil.exchange(comparables, j - 1, j);
 
                 }
             }
@@ -36,27 +31,25 @@ public class Insertion {
     /**
      * 优化后的插入算法，使用了前面已经排序的数字的性质
      */
-    public static void sortOPT(Comparable[] comparables) {
+    public static void sortOpt(Comparable[] comparables) {
         for (int i = 1; i < comparables.length; i++) {
 
 
             for (int j = i; j > 0 && ComparableUtil.less(comparables[j], comparables[j - 1]); j--) {
-                ArrayUtil.println(comparables);
-                System.out.println("发生交换下标：" + (j - 1) +" "+ j);
-                ComparableUtil.exch(comparables, j - 1, j);
+                ComparableUtil.exchange(comparables, j - 1, j);
             }
         }
     }
 
     /**
-     * 测试用例
+     * 测试用例，是存在优化空间的
      */
     public static void main(String[] args) {
-        Integer[] a = ArrayUtil.randomArray(500, 50);
+        Integer[] a = ArrayUtil.randomArray(5000, 50);
 
-        //StopwatchUtil.stopwatch(() -> sortOPT(a));
+        StopwatchUtil.stopwatch(() -> sortOpt(a));
 
-        StopwatchUtil.stopwatch(() -> sort(a));
+        //StopwatchUtil.stopwatch(() -> sort(a));
 
         System.out.println("排序正确性："+ComparableUtil.isSorted(a));
     }
