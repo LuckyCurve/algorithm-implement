@@ -19,16 +19,16 @@ public class ShellSort {
         // 单具体影响的指标还未知
         int sin = 80;
 
-        int N = comparables.length;
+        int n = comparables.length;
         int h = 1;
         // 初始化h
-        while (h < N / sin) {
+        while (h < n / sin) {
             h *= sin;
         }
 
         // 排序每一组，使用插入排序逻辑
         while (h >= 1) {
-            for (int i = h; i < N; i++) {
+            for (int i = h; i < n; i++) {
                 for (int j = i; j >= h && ComparableUtil.less(comparables[j], comparables[j - h]); j -= h) {
                     ComparableUtil.exchange(comparables, j, j - h);
                 }

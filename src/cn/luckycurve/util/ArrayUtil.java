@@ -28,4 +28,12 @@ public class ArrayUtil {
         System.out.println(Arrays.toString(objects));
     }
 
+    public static void shuffle(Object[] src) {
+        for (int i = 0; i < src.length; i++) {
+            int index = StdRandom.nextInt(src.length);
+            Object temp = src[i];
+            src[i] = src[index];
+            src[index] = temp;
+        }
+    }
 }
