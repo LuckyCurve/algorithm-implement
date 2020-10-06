@@ -91,6 +91,51 @@ public class Test {
                 src[k] = aux[j++];
             }
         }
+    }
+
+    /**
+     * 快速排序算法的实现
+     */
+    public static void quickSort(Comparable[] src) {
+        ArrayUtil.shuffle(src);
+
+        quickSort(src, 0, src.length - 1);
+    }
+
+    private static void quickSort(Comparable[] src, Integer low, Integer high) {
+        if (low >= high) {
+            return;
+        }
+
+        // 切分
+        int i = low, j = high + 1;
+        Comparable temp = src[low];
+        while (true) {
+
+            while (ComparableUtil.less(src[++i], temp)) {
+                if (i >= high) {
+                    break;
+                }
+            }
+
+            while (ComparableUtil.less(temp, src[--j])) {
+                if (j <= low) {
+                    break;
+                }
+            }
+
+            if (i >= j) {
+                break;
+            }
+
+            ComparableUtil.exchange(src, i, j);
+
+        }
+
+        ComparableUtil.exchange(src, low, j);
+
+        quickSort(src, low, j - 1);
+        quickSort(src, j + 1, high);
 
 
     }
@@ -102,7 +147,7 @@ public class Test {
     public static void main(String[] args) {
         Integer[] a = ArrayUtil.randomArray(5000, 50);
 
-        StopwatchUtil.stopwatch(() -> mergeSort(a));
+        StopwatchUtil.stopwatch(() -> quickSort(a));
 
         System.out.println("排序正确性：" + ComparableUtil.isSorted(a));
 
