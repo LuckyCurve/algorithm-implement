@@ -16,6 +16,11 @@ public class ComparableUtil {
         return c1.compareTo(c2) < 0;
     }
 
+    public static Boolean equals(Comparable c1, Comparable c2) {
+        return c1.compareTo(c2) == 0;
+    }
+
+
     /**
      * 完成交换指定下标元素
      */

@@ -4,6 +4,14 @@ import cn.luckycurve.util.ArrayUtil;
 import cn.luckycurve.util.ComparableUtil;
 import cn.luckycurve.util.StopwatchUtil;
 
+import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
+import javax.xml.stream.events.EndDocument;
+import java.time.chrono.HijrahChronology;
+import java.time.chrono.MinguoChronology;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.concurrent.Executors;
+
 /**
  * @author LuckyCurve
  * @date 2020/8/23 21:11
@@ -11,14 +19,13 @@ import cn.luckycurve.util.StopwatchUtil;
  */
 public class Test {
 
+
     /**
-     * 归并排序需要的额外空间
+     * 额外空间
      */
     private static Comparable[] aux;
 
-    /**
-     * 插入排序
-     */
+    // 插入排序
     public static void insertSort(Comparable[] src) {
         for (int i = 1; i < src.length; i++) {
             for (int j = i; j > 0 && ComparableUtil.less(src[j], src[j - 1]); j--) {
@@ -27,22 +34,21 @@ public class Test {
         }
     }
 
-    /**
-     * 希尔排序
-     */
+
+    // 希尔排序
     public static void shellSort(Comparable[] src) {
-        // 确定参数因子
-        int sin = 3;
-        int length = src.length;
+        // 系数因子，性能调优时候用到
+        int sin = 4;
+
         int h = 1;
 
-        while (h >= length / sin) {
+        while (h < src.length / sin) {
             h *= sin;
         }
 
         while (h >= 1) {
-            for (int i = h; i < length; i++) {
-                for (int j = i; j >= h && ComparableUtil.less(src[j], src[j - h]); j -= h) {
+            for (int i = h; i < src.length; i++) {
+                for (int j = i; j >= h && ComparableUtil.less(src[j], src[j - h]); j--) {
                     ComparableUtil.exchange(src, j, j - h);
                 }
             }
@@ -50,40 +56,40 @@ public class Test {
         }
     }
 
-    /**
-     * 归并排序
-     */
+
+    // 归并排序
     public static void mergeSort(Comparable[] src) {
-        // 完成额外空间的初始化
+        // 初数化数组
         aux = new Comparable[src.length];
 
         mergeSort(src, 0, src.length - 1);
     }
 
-    private static void mergeSort(Comparable[] src, Integer start, Integer end) {
-        if (start >= end) {
+    private static void mergeSort(Comparable[] src, Integer low, Integer high) {
+        if (low >= high) {
             return;
         }
 
-        int middle = (start + end) / 2;
+        int middle = (low + high) / 2;
 
-        mergeSort(src, start, middle);
-        mergeSort(src, middle + 1, end);
-        merge(src, start, middle, end);
+        mergeSort(src, low, middle);
+        mergeSort(src, middle + 1, high);
+        merge(src, low, middle, high);
     }
 
-    private static void merge(Comparable[] src, Integer start, Integer middle, Integer end) {
-        // 赋初值
-        for (int i = start; i <= end; i++) {
+
+    private static void merge(Comparable[] src, Integer low, Integer middle, Integer high) {
+        // 额外空间赋初值
+        for (int i = low; i <= high; i++) {
             aux[i] = src[i];
         }
 
-        int i = start, j = middle + 1;
+        int i = low, j = middle + 1;
 
-        for (int k = start; k <= end; k++) {
+        for (int k = low; k <= high; k++) {
             if (i > middle) {
                 src[k] = aux[j++];
-            } else if (j > end) {
+            } else if (j > high) {
                 src[k] = aux[i++];
             } else if (ComparableUtil.less(aux[i], aux[j])) {
                 src[k] = aux[i++];
@@ -93,9 +99,8 @@ public class Test {
         }
     }
 
-    /**
-     * 快速排序算法的实现
-     */
+
+    // 快速排序实现
     public static void quickSort(Comparable[] src) {
         ArrayUtil.shuffle(src);
 
@@ -107,19 +112,29 @@ public class Test {
             return;
         }
 
-        // 切分
+        Integer k = partition(src, low, high);
+        quickSort(src, low, k - 1);
+        quickSort(src, k + 1, high);
+
+
+    }
+
+    private static Integer partition(Comparable[] src, Integer low, Integer high) {
+
         int i = low, j = high + 1;
         Comparable temp = src[low];
-        while (true) {
 
+        while (true) {
+            // 获取左边大的
             while (ComparableUtil.less(src[++i], temp)) {
-                if (i >= high) {
+                if (i > high) {
                     break;
                 }
             }
 
+            // 右边小的
             while (ComparableUtil.less(temp, src[--j])) {
-                if (j <= low) {
+                if (j < low) {
                     break;
                 }
             }
@@ -129,17 +144,11 @@ public class Test {
             }
 
             ComparableUtil.exchange(src, i, j);
-
         }
 
         ComparableUtil.exchange(src, low, j);
-
-        quickSort(src, low, j - 1);
-        quickSort(src, j + 1, high);
-
-
+        return j;
     }
-
 
     /**
      * 测试用例

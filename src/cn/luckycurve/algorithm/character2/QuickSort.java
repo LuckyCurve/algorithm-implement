@@ -23,7 +23,7 @@ public class QuickSort {
             return;
         }
 
-        Integer j = partition(src, start, end);
+        int j = partition(src, start, end);
         sort(src, start, j - 1);
         sort(src, j + 1, end);
 
@@ -31,7 +31,7 @@ public class QuickSort {
 
     private static Integer partition(Comparable[] src, Integer start, Integer end) {
         Comparable temp = src[start];
-        Integer i = start, j = end + 1;
+        int i = start, j = end + 1;
         while (true) {
             // 左边找打大的
             while (ComparableUtil.less(src[++i], temp)) {
