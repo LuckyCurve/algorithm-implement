@@ -1,5 +1,6 @@
 package cn.luckycurve.algorithm.character1;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -58,6 +59,13 @@ public class QueueByArray<Item> implements Iterable<Item> {
         data = obj;
     }
 
+    @Override
+    public String toString() {
+        return "QueueByArray{" +
+                "data=" + Arrays.toString(data) +
+                ", size=" + size +
+                '}';
+    }
 
     @Override
     public Iterator<Item> iterator() {

@@ -1,6 +1,7 @@
 package cn.luckycurve.algorithm.character4;
 
-import javax.imageio.stream.IIOByteBuffer;
+import cn.luckycurve.util.GraphUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,12 +17,12 @@ public class DepthFirstPaths {
     /**
      * 是否被遍历到
      */
-    private Boolean[] marked;
+    private final Boolean[] marked;
 
     /**
      * 当前节点的末尾节点，遍历信息存储在这里面
      */
-    private Integer[] edgeTo;
+    private final Integer[] edgeTo;
 
     /**
      * 起始节点
@@ -96,7 +97,7 @@ public class DepthFirstPaths {
         }
 
         DepthFirstPaths path = new DepthFirstPaths(graph, 9);
-        System.out.println(path.pathTo(5));
+        System.out.println(GraphUtil.listPath(path.pathTo(5)));
     }
 
 
